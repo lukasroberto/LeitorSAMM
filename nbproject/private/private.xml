@@ -3,6 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/1"/>
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/C:/Users/lukas/Documents/NetBeansProjects/LeitorSAMM/src/br/com/grupofortress/main/LeitorSamm.java</file>
+            <file>file:/C:/Users/lukas/Documents/NetBeansProjects/LeitorSAMM/src/br/com/grupofortress/model/Clientes.java</file>
+            <file>file:/C:/Users/lukas/Documents/NetBeansProjects/LeitorSAMM/src/br/com/grupofortress/model/Evento.java</file>
+            <file>file:/C:/Users/lukas/Documents/NetBeansProjects/LeitorSAMM/src/br/com/grupofortress/dao/LeitorDao.java</file>
+        </group>
     </open-files>
 </project-private>
