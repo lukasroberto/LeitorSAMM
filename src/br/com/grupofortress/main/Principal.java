@@ -1,6 +1,8 @@
 package br.com.grupofortress.main;
 
 import br.com.grupofortress.controller.Universal;
+import br.com.grupofortress.dao.ClientesDao;
+import br.com.grupofortress.model.Cliente;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
@@ -26,6 +28,11 @@ public class Principal {
         timer.scheduleAtFixedRate(new TimerTask() {
             public void run() {
                 conta = conta + 1;
+                ClientesDao dao = new ClientesDao();
+              for(Cliente obje : dao.ListaCodClientes()){
+                  Long cli_codigo = obje.getCli_codigo();
+                  dao.
+              }
 
                 if (conta >= qtqTimer) {
                     conta = 0;
