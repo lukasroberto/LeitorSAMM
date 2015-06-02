@@ -27,7 +27,7 @@ public class Cliente {
     private String cli_telefone1;
     private String cli_empresa;
     private String cli_comunicacao;
-    //private boolean cli_monitorado;
+    private boolean cli_monitorado;
     private Calendar cli_ultima_comunicacao;
 
     public Long getCli_codigo() {
@@ -140,6 +140,14 @@ public class Cliente {
 
     public void setCli_ultima_comunicacao(Calendar cli_ultima_comunicacao) {
         this.cli_ultima_comunicacao = cli_ultima_comunicacao;
+    }
+
+    public boolean getCli_monitorado() {
+        return cli_monitorado;
+    }
+
+    public void setCli_monitorado(boolean cli_monitorado) {
+        this.cli_monitorado = cli_monitorado;
     }
 
 }

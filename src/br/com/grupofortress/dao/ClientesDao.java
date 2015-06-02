@@ -78,10 +78,12 @@ public class ClientesDao {
         }
     }
 
-    public void clientesSemComunicação(String clicodigo, String data) {
+    public void clientesSemComunicação() {
 
         try {
-            entityManager.createQuery("UPDATE TOP (200) CLIENTE SET cli_ultima_comunicacao = '2011-08-24 14:20:05.190' WHERE (cli_codigo = '2')");
+            entityManager.getTransaction().begin();
+            entityManager.createQuery("UPDATE TOP (1) "+ Cliente.class.getName()+" SET cli_ultima_comunicacao = '2011-08-24 14:20:05.190' WHERE (cli_codigo = '1')");
+            entityManager.getTransaction().commit();
         } catch (Exception ex) {
             ex.printStackTrace();
             entityManager.getTransaction().rollback();

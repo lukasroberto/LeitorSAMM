@@ -18,6 +18,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import javax.swing.WindowConstants;
 import javax.swing.table.DefaultTableModel;
 import propriedades.Propriedades;
@@ -126,6 +129,7 @@ public class LeitorSamm extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     void net() {
+
         tabelaEventos = (DefaultTableModel) tbEventosRecebidos.getModel();
 
         try {
@@ -206,12 +210,13 @@ public class LeitorSamm extends javax.swing.JFrame {
                                 tabelaEventos.addRow(new Object[]{calendarToString(evento.getEve_data()), evento.getEve_hora(), evento.getEve_conta_grupo_receptor(), evento.getEve_codigo_cliente(), evento.getEve_protocolo(), evento.getEve_codigo_evento(),
                                     evento.getEve_particao(), evento.getEve_usuario_zona()});
                                 leitorDao.persist(evento);
-                                
+
                                 Cliente cliente = new Cliente();
-                                cliente.setCli_codigo(Long.valueOf (evento.getEve_codigo_cliente()));
+                                cliente.setCli_codigo(Long.valueOf(evento.getEve_codigo_cliente()));
                                 cliente.setCli_ultima_comunicacao(evento.getEve_data());
-                                 
-                                clienteDao.merge(cliente);
+                                cliente.setCli_monitorado(true);
+
+                                clienteDao.clientesSemComunicação();
 
                             } catch (NumberFormatException ex) {
                                 System.err.println(ex);
@@ -244,7 +249,8 @@ public class LeitorSamm extends javax.swing.JFrame {
                 Logger.getLogger(LeitorSamm.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-    }    
+    }
+
     //pega a data atual mais a hora recebeda pela vectra e converte em calendar
     public Calendar dataToCalendar(String hora) {
         Date data = new Date(System.currentTimeMillis());
