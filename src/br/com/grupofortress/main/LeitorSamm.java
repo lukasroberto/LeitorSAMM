@@ -1,7 +1,9 @@
 package br.com.grupofortress.main;
 
 import br.com.grupofortress.controller.Universal;
+import br.com.grupofortress.dao.ClientesDao;
 import br.com.grupofortress.dao.LeitorDao;
+import br.com.grupofortress.model.Cliente;
 import br.com.grupofortress.model.Evento;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -161,6 +163,7 @@ public class LeitorSamm extends javax.swing.JFrame {
             String arrayCamposParte2[] = new String[6];
 
             LeitorDao leitorDao = null;
+            ClientesDao clienteDao = null;
             if (entrada.readLine() == null) {
                 System.out.println("Vazio");
             } else {
@@ -168,6 +171,7 @@ public class LeitorSamm extends javax.swing.JFrame {
                     tabelaEventos.setNumRows(0);
                 }
                 leitorDao = new LeitorDao();
+                clienteDao = new ClientesDao();
                 while ((saida = entrada.readLine()) != null) {
                     //Grava a linha em um arquivo de BKP eventBKP.txt
                     //destinoBKP.write(saida.getBytes());
@@ -202,7 +206,12 @@ public class LeitorSamm extends javax.swing.JFrame {
                                 tabelaEventos.addRow(new Object[]{calendarToString(evento.getEve_data()), evento.getEve_hora(), evento.getEve_conta_grupo_receptor(), evento.getEve_codigo_cliente(), evento.getEve_protocolo(), evento.getEve_codigo_evento(),
                                     evento.getEve_particao(), evento.getEve_usuario_zona()});
                                 leitorDao.persist(evento);
-                                leitorDao.clientesSemComunicação(saida, saida);
+                                
+                                Cliente cliente = new Cliente();
+                                cliente.setCli_codigo(Long.valueOf (evento.getEve_codigo_cliente()));
+                                cliente.setCli_ultima_comunicacao(evento.getEve_data());
+                                 
+                                clienteDao.merge(cliente);
 
                             } catch (NumberFormatException ex) {
                                 System.err.println(ex);

@@ -28,12 +28,6 @@ public class Principal {
         timer.scheduleAtFixedRate(new TimerTask() {
             public void run() {
                 conta = conta + 1;
-                ClientesDao dao = new ClientesDao();
-              for(Cliente obje : dao.ListaCodClientes()){
-                  Long cli_codigo = obje.getCli_codigo();
-                  dao.
-              }
-
                 if (conta >= qtqTimer) {
                     conta = 0;
                         Universal.reiniciaAplicativo();

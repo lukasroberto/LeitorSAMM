@@ -80,7 +80,7 @@ public class LeitorDao {
         }
     }
 
-    public void clientesSemComunicação(String clicodigo, String data) {
+    public void clientesSemComunicação(String clicodigo) {
         
          try {
         entityManager.createQuery("UPDATE TOP (200) CLIENTE SET cli_ultima_comunicacao = '2011-08-24 14:20:05.190' WHERE (cli_codigo = '2')");
