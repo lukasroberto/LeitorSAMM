@@ -3,10 +3,11 @@
   <persistence-unit name="WeHaveSciencePU" transaction-type="RESOURCE_LOCAL">
     <provider>org.hibernate.ejb.HibernatePersistence</provider>
     <class>br.com.grupofortress.model.Evento</class>
+    <class>br.com.grupofortress.model.Cliente</class>
     <properties>
       <property name="hibernate.dialect" value="org.hibernate.dialect.SQLServerDialect"/>
       <property name="javax.persistence.jdbc.driver" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
-      <property name="javax.persistence.jdbc.url" value="jdbc:sqlserver://192.168.0.6\monitoramento:1433;databaseName=monitoramento"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:sqlserver://localhost\monitoramento:1433;databaseName=monitoramento"/>
       <property name="javax.persistence.jdbc.user" value="sa"/>
       <property name="javax.persistence.jdbc.password" value="spotGF2008"/>
       <property name="hibernate.show_sql" value="true"/>
@@ -15,6 +16,7 @@
       <property name="hibernate.jdbc.wrap_result_sets" value="false"/>
       <property name="hibernate.hibernate.cache.use_query_cache" value="true"/>
       <property name="hibernate.hbm2ddl.auto" value="update"/>
+      
     </properties>
   </persistence-unit>
 </persistence>

@@ -1,19 +1,21 @@
 package br.com.grupofortress.model;
 
+import java.io.Serializable;
 import java.util.Calendar;
-import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
 
 @Entity
 @Table(name = "LEITOR")
-public class Evento {
+public class Evento implements Serializable {
 
     @Id
     @GeneratedValue
     private Long eve_id;
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar eve_data;
     private String eve_hora;
     private String dataVectra;

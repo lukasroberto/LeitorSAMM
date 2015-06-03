@@ -1,9 +1,11 @@
 package br.com.grupofortress.model;
 
+import java.io.Serializable;
 import java.util.Calendar;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
 
 /**
  *
@@ -11,7 +13,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "CLIENTE")
-public class Cliente {
+public class Cliente implements Serializable {
 
     @Id
     private Long cli_codigo;
@@ -23,11 +25,13 @@ public class Cliente {
     private String cli_estado;
     private String cli_telefone;
     private String cli_cad_por;
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar cli_data_cad;
     private String cli_telefone1;
     private String cli_empresa;
     private String cli_comunicacao;
     private boolean cli_monitorado;
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar cli_ultima_comunicacao;
 
     public Long getCli_codigo() {

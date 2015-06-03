@@ -3,7 +3,6 @@ package br.com.grupofortress.main;
 import br.com.grupofortress.controller.Universal;
 import br.com.grupofortress.dao.ClientesDao;
 import br.com.grupofortress.dao.LeitorDao;
-import br.com.grupofortress.model.Cliente;
 import br.com.grupofortress.model.Evento;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -18,9 +17,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.swing.WindowConstants;
 import javax.swing.table.DefaultTableModel;
 import propriedades.Propriedades;
@@ -210,13 +206,7 @@ public class LeitorSamm extends javax.swing.JFrame {
                                 tabelaEventos.addRow(new Object[]{calendarToString(evento.getEve_data()), evento.getEve_hora(), evento.getEve_conta_grupo_receptor(), evento.getEve_codigo_cliente(), evento.getEve_protocolo(), evento.getEve_codigo_evento(),
                                     evento.getEve_particao(), evento.getEve_usuario_zona()});
                                 leitorDao.persist(evento);
-
-                                Cliente cliente = new Cliente();
-                                cliente.setCli_codigo(Long.valueOf(evento.getEve_codigo_cliente()));
-                                cliente.setCli_ultima_comunicacao(evento.getEve_data());
-                                cliente.setCli_monitorado(true);
-
-                                clienteDao.clientesSemComunicação();
+                                clienteDao.clientesSemComunicação(calendarToString(evento.getEve_data()), evento.getEve_codigo_cliente());
 
                             } catch (NumberFormatException ex) {
                                 System.err.println(ex);

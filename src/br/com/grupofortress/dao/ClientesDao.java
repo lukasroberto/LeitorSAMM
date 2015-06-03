@@ -1,11 +1,13 @@
 package br.com.grupofortress.dao;
 
 import br.com.grupofortress.model.Cliente;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 
 public class ClientesDao {
 
@@ -78,20 +80,14 @@ public class ClientesDao {
         }
     }
 
-    public void clientesSemComunicação() {
-
-        try {
+    public void clientesSemComunicação(String data, int cli_codigo) {
             entityManager.getTransaction().begin();
-            entityManager.createQuery("UPDATE TOP (1) "+ Cliente.class.getName()+" SET cli_ultima_comunicacao = '2011-08-24 14:20:05.190' WHERE (cli_codigo = '1')");
-            entityManager.getTransaction().commit();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            entityManager.getTransaction().rollback();
-        }
+        Query createQuery = entityManager.createQuery("UPDATE "+Cliente.class.getName()+" SET cli_monitorado = '1', cli_ultima_comunicacao = '"+data+"' WHERE (cli_codigo = '"+cli_codigo+"')");
+        createQuery.executeUpdate();
+        entityManager.getTransaction().commit();
     }
     
         public List<Cliente> ListaCodClientes() {
-            System.out.println(Cliente.class.getName());
         return entityManager.createQuery("FROM " + Cliente.class.getName())
                 .getResultList();
     }

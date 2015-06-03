@@ -30,7 +30,7 @@ public class Principal {
                 conta = conta + 1;
                 if (conta >= qtqTimer) {
                     conta = 0;
-                        Universal.reiniciaAplicativo();
+                    Universal.reiniciaAplicativo();
                 } else {
                     n.net();
                 }
