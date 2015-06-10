@@ -43,3 +43,4 @@ Temporary Items
 .apdisk
 /dist/
 src/META-INF/persistence.xml
+build/classes/META-INF/persistence.xml
