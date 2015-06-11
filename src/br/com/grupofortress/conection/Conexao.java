@@ -24,6 +24,5 @@ public class Conexao {
 //            throw new SQLException(e.getMessage());
 //
 //        }
-    
     //}
 }
