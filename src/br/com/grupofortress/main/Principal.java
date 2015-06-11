@@ -1,6 +1,7 @@
 package br.com.grupofortress.main;
 
 import br.com.grupofortress.controller.CommonsMail;
+import br.com.grupofortress.controller.GerarTarefasAgendadas;
 import br.com.grupofortress.controller.Universal;
 import java.awt.*;
 import java.awt.event.*;
@@ -34,7 +35,7 @@ public class Principal {
             Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
         }
        
-
+        GerarTarefasAgendadas.getInstance().iniciar();
         java.util.Timer timer = new java.util.Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
             public void run() {

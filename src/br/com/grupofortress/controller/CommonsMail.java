@@ -123,14 +123,4 @@ public final class CommonsMail {
             System.out.println(e);
         }
     }
-
-    /**
-     * @param args
-     * @throws EmailException
-     * @throws MalformedURLException
-     */
-    public static void main(String[] args) throws EmailException, MalformedURLException {
-        new CommonsMail();
-    }
-
 }

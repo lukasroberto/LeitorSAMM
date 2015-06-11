@@ -87,8 +87,12 @@ public class ClientesDao {
         entityManager.getTransaction().commit();
     }
     
-        public List<Cliente> ListaCodClientes() {
-        return entityManager.createQuery("FROM " + Cliente.class.getName())
-                .getResultList();
+        public void verificaClientesSemComunicação(String data, int cli_codigo) {
+            entityManager.getTransaction().begin();
+        Query createQuery = entityManager.createQuery("SELECT cli_codigo, cli_nome, cli_empresa, cli_monitorado, cli_ultima_comunicacao\n" +
+                "FROM CLIENTE WHERE (cli_empresa <> 'guardian') AND (cli_monitorado = 'true')\n"+
+                "AND (cli_ultima_comunicacao < '10-06-2015 10:00') ORDER BY cli_ultima_comunicacao DESC");
+        
+        entityManager.getTransaction().commit();
     }
 }
