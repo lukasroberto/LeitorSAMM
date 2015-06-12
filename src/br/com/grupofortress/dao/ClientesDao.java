@@ -8,6 +8,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
 
 public class ClientesDao {
 
@@ -81,18 +83,19 @@ public class ClientesDao {
     }
 
     public void clientesSemComunicação(String data, int cli_codigo) {
-            entityManager.getTransaction().begin();
-        Query createQuery = entityManager.createQuery("UPDATE "+Cliente.class.getName()+" SET cli_monitorado = '1', cli_ultima_comunicacao = '"+data+"' WHERE (cli_codigo = '"+cli_codigo+"')");
+        entityManager.getTransaction().begin();
+        Query createQuery = entityManager.createQuery("UPDATE " + Cliente.class.getName() + " SET cli_monitorado = '1', cli_ultima_comunicacao = '" + data + "' WHERE (cli_codigo = '" + cli_codigo + "')");
         createQuery.executeUpdate();
         entityManager.getTransaction().commit();
     }
-    
-        public void verificaClientesSemComunicação(String data, int cli_codigo) {
-            entityManager.getTransaction().begin();
-        Query createQuery = entityManager.createQuery("SELECT cli_codigo, cli_nome, cli_empresa, cli_monitorado, cli_ultima_comunicacao\n" +
-                "FROM CLIENTE WHERE (cli_empresa <> 'guardian') AND (cli_monitorado = 'true')\n"+
-                "AND (cli_ultima_comunicacao < '10-06-2015 10:00') ORDER BY cli_ultima_comunicacao DESC");
+
+    public List verificaClientesSemComunicação(String data, int cli_codigo) {
+        entityManager.getTransaction().begin();
+        Query createQuery = entityManager.createQuery("SELECT cli_codigo, cli_nome, cli_empresa, cli_monitorado, cli_ultima_comunicacao\n"
+                + "FROM CLIENTE WHERE (cli_empresa <> 'guardian') AND (cli_monitorado = 'true')\n"
+                + "AND (cli_ultima_comunicacao < '10-06-2015 10:00') ORDER BY cli_ultima_comunicacao DESC");
         
-        entityManager.getTransaction().commit();
+       return createQuery.getResultList();
     }
+
 }

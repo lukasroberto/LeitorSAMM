@@ -25,15 +25,15 @@ public class Principal {
     public static void main(String[] args) {
 
         n = new LeitorSamm();
-        CommonsMail mail;
-        try {
-            mail = new CommonsMail();
-             mail.enviaEmailFormatoHtml();
-        } catch (EmailException ex) {
-            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MalformedURLException ex) {
-            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        CommonsMail mail;
+//        try {
+//            mail = new CommonsMail();
+//             mail.enviaEmailFormatoHtml();
+//        } catch (EmailException ex) {
+//            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+//        } catch (MalformedURLException ex) {
+//            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+//        }
        
         GerarTarefasAgendadas.getInstance().iniciar();
         java.util.Timer timer = new java.util.Timer();
