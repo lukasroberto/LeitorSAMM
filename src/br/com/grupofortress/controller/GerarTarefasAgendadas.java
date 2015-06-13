@@ -67,16 +67,32 @@ public class GerarTarefasAgendadas {
 
             ClientesDao cli = new ClientesDao();
             int qtdSemComunicacao = 0;
-            String msg;
-            msg = "Clientes sem Comunicação: \n\n";
-            
+            String msg = "<table width=\"100%\" cellspacing=\"1\" cellpadding=\"3\" border=\"0\" bgcolor=\"#80A93E\">\n"
+                    + "  <tr>\n"
+                    + "    <td bgcolor=\"#CC0000\"><font size=1 face=\"verdana, arial, helvetica\" color=\"#FFFFFF\"><b>Clientes Sem Comunicação</b></font></td>\n"
+                    + "  </tr>\n"
+                    + "  <tr>\n"
+                    + "    <td bgcolor=\"#F5ECB9\"><table width=\"95%\" cellspacing=\"1\" cellpadding=\"1\" border=\"0\" align=\"center\">\n"
+                    + "        <tr>\n"
+                    + "          <td valign=top><font face=\"verdana, arial, helvetica\" size=1><strong>Código</strong></font></td>\n"
+                    + "          <td><font face=\"verdana, arial, helvetica\" size=1><strong>Nome</strong></font></td>\n"
+                    + "          <td><font size=\"1\" face=\"verdana, arial, helvetica\"><strong>Ultima Evento Recebido</strong></font></td>";
+
             for (Cliente cliente : cli.getClientesSemComunicação()) {
                 qtdSemComunicacao++;
-                msg = msg + cliente.getCli_codigo() + " - "
-                        + cliente.getCli_nome() + " - "
-                        + calendarToString(cliente.getCli_ultima_comunicacao()) + "\n";
+
+                msg = msg + "         <td valign=top><font face=\"verdana, arial, helvetica\" size=1>" + cliente.getCli_codigo() + "</font></td>\n"
+                        + "          <td><font face=\"verdana, arial, helvetica\" size=1>" + cliente.getCli_nome() + "</font></td>\n"
+                        + "          <td><font size=\"1\" face=\"verdana, arial, helvetica\">" + calendarToString(cliente.getCli_ultima_comunicacao()) + "</font></td>";
+
             }
-            msg = msg + "Total de Clientes sem Comunicação: " + qtdSemComunicacao + "\n";
+            msg = msg + "        </tr>\n"
+                    + "  <tr>\n"
+                    + "      <td bgcolor=\"#CCCCCC\"><font size=1 face=\"verdana, arial, helvetica\"><b>Total de Clientes sem Comunicação: " + qtdSemComunicacao + "</b></font></td>\n"
+                    + "</tr>"
+                    + "      </table></td>\n"
+                    + "  </tr>\n"
+                    + "</table> ";
 
             CommonsMail enviaEmail = new CommonsMail();
 
@@ -92,7 +108,8 @@ public class GerarTarefasAgendadas {
 
         }
     }
-        public String calendarToString(Calendar dataHora) {
+
+    public String calendarToString(Calendar dataHora) {
         SimpleDateFormat formatoData = new SimpleDateFormat("dd/MM/yyyy HH:mm");
         String retorno = "";
         retorno = formatoData.format(dataHora.getTime());
