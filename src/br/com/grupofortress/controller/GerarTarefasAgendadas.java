@@ -67,7 +67,7 @@ public class GerarTarefasAgendadas {
 
             ClientesDao cli = new ClientesDao();
             int qtdSemComunicacao = 0;
-            String msg = "<table width=\"100%\" cellspacing=\"1\" cellpadding=\"3\" border=\"0\" bgcolor=\"#80A93E\">\n"
+            String msg = "<table width=\"100%\" cellspacing=\"1\" cellpadding=\"3\" border=\"0\" bgcolor=\"#CCCCCC\">\n"
                     + "  <tr>\n"
                     + "    <td bgcolor=\"#CC0000\"><font size=1 face=\"verdana, arial, helvetica\" color=\"#FFFFFF\"><b>Clientes Sem Comunicação</b></font></td>\n"
                     + "  </tr>\n"
@@ -81,17 +81,18 @@ public class GerarTarefasAgendadas {
             for (Cliente cliente : cli.getClientesSemComunicação()) {
                 qtdSemComunicacao++;
 
-                msg = msg + "         <td valign=top><font face=\"verdana, arial, helvetica\" size=1>" + cliente.getCli_codigo() + "</font></td>\n"
-                        + "          <td><font face=\"verdana, arial, helvetica\" size=1>" + cliente.getCli_nome() + "</font></td>\n"
-                        + "          <td><font size=\"1\" face=\"verdana, arial, helvetica\">" + calendarToString(cliente.getCli_ultima_comunicacao()) + "</font></td>";
+                msg = msg + "<tr>"
+                        + "  <td valign=top><font face=\"verdana, arial, helvetica\" size=1>" + cliente.getCli_codigo() + "</font></td>\n"
+                        + "  <td><font face=\"verdana, arial, helvetica\" size=1>" + cliente.getCli_nome() + "</font></td>\n"
+                        + "  <td><font size=\"1\" face=\"verdana, arial, helvetica\">" + calendarToString(cliente.getCli_ultima_comunicacao()) + "</font></td>"
+                        + "</tr>";
 
             }
-            msg = msg + "        </tr>\n"
+            msg = msg + "      </table></td>\n"
+                    + "  </tr>\n"
                     + "  <tr>\n"
                     + "      <td bgcolor=\"#CCCCCC\"><font size=1 face=\"verdana, arial, helvetica\"><b>Total de Clientes sem Comunicação: " + qtdSemComunicacao + "</b></font></td>\n"
                     + "</tr>"
-                    + "      </table></td>\n"
-                    + "  </tr>\n"
                     + "</table> ";
 
             CommonsMail enviaEmail = new CommonsMail();
