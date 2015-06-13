@@ -79,10 +79,11 @@ public final class CommonsMail {
     /**
      * Envia email no formato HTML
      *
+     * @param msg
      * @throws EmailException
      * @throws MalformedURLException
      */
-    public void enviaEmailFormatoHtml() throws EmailException, MalformedURLException {
+    public void enviaEmailFormatoHtml(String msg) throws EmailException, MalformedURLException {
 
         try {
 
@@ -109,7 +110,7 @@ public final class CommonsMail {
                 email.addTo(enviaPara); //destinatário
                 email.setFrom(de); // remetente
                 email.setSubject("Teste"); // assunto do e-mail
-                email.setMsg("Teste de Email HTML utilizando commons-email"); //conteudo do e-mail
+                email.setMsg(msg); //conteudo do e-mail
                 email.setAuthentication(user, senha);
                 email.setSmtpPort(587);
                 email.setSSL(false);

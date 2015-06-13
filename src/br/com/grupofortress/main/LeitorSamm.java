@@ -206,7 +206,7 @@ public class LeitorSamm extends javax.swing.JFrame {
                                 tabelaEventos.addRow(new Object[]{calendarToString(evento.getEve_data()), evento.getEve_hora(), evento.getEve_conta_grupo_receptor(), evento.getEve_codigo_cliente(), evento.getEve_protocolo(), evento.getEve_codigo_evento(),
                                     evento.getEve_particao(), evento.getEve_usuario_zona()});
                                 leitorDao.persist(evento);
-                                clienteDao.clientesSemComunicação(calendarToString(evento.getEve_data()), evento.getEve_codigo_cliente());
+                                clienteDao.atualizaUltimaComunicacaoCLiente(calendarToString(evento.getEve_data()), evento.getEve_codigo_cliente());
 
                             } catch (NumberFormatException ex) {
                                 System.err.println(ex);

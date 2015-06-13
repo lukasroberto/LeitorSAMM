@@ -82,20 +82,18 @@ public class ClientesDao {
         }
     }
 
-    public void clientesSemComunicação(String data, int cli_codigo) {
+    public void atualizaUltimaComunicacaoCLiente(String data, int cli_codigo) {
         entityManager.getTransaction().begin();
         Query createQuery = entityManager.createQuery("UPDATE " + Cliente.class.getName() + " SET cli_monitorado = '1', cli_ultima_comunicacao = '" + data + "' WHERE (cli_codigo = '" + cli_codigo + "')");
         createQuery.executeUpdate();
         entityManager.getTransaction().commit();
     }
 
-    public List verificaClientesSemComunicação(String data, int cli_codigo) {
+    public List<Cliente> getClientesSemComunicação() {
         entityManager.getTransaction().begin();
-        Query createQuery = entityManager.createQuery("SELECT cli_codigo, cli_nome, cli_empresa, cli_monitorado, cli_ultima_comunicacao\n"
-                + "FROM CLIENTE WHERE (cli_empresa <> 'guardian') AND (cli_monitorado = 'true')\n"
+        Query createQuery = entityManager.createQuery("FROM Cliente WHERE (cli_empresa <> 'guardian') AND (cli_monitorado = 'true')\n"
                 + "AND (cli_ultima_comunicacao < '10-06-2015 10:00') ORDER BY cli_ultima_comunicacao DESC");
-        
-       return createQuery.getResultList();
+              return createQuery.getResultList();
     }
 
 }
