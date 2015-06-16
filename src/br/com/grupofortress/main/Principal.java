@@ -1,21 +1,15 @@
 package br.com.grupofortress.main;
 
-import br.com.grupofortress.controller.CommonsMail;
 import br.com.grupofortress.controller.GerarTarefasAgendadas;
 import br.com.grupofortress.controller.Universal;
-import br.com.grupofortress.dao.ClientesDao;
-import br.com.grupofortress.model.Cliente;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.text.SimpleDateFormat;
 import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
-import org.apache.commons.mail.EmailException;
 import propriedades.Propriedades;
 
 public class Principal {
@@ -28,15 +22,6 @@ public class Principal {
     public static void main(String[] args) {
 
         n = new LeitorSamm();
-//        CommonsMail mail;
-//        try {
-//            mail = new CommonsMail();
-//             mail.enviaEmailFormatoHtml();
-//        } catch (EmailException ex) {
-//            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
-//        } catch (MalformedURLException ex) {
-//            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
-//        }
 
         GerarTarefasAgendadas.getInstance().iniciar();
         java.util.Timer timer = new java.util.Timer();

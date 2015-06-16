@@ -25,13 +25,11 @@ public class Cliente implements Serializable {
     private String cli_estado;
     private String cli_telefone;
     private String cli_cad_por;
-    @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar cli_data_cad;
     private String cli_telefone1;
     private String cli_empresa;
     private String cli_comunicacao;
     private boolean cli_monitorado;
-    @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar cli_ultima_comunicacao;
 
     public Long getCli_codigo() {

@@ -11,9 +11,7 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -30,10 +28,8 @@ public class LeitorSamm extends javax.swing.JFrame {
     private final String grupocontaReceptora = Propriedades.getProp().getProperty("grupocontareceptora");
     private final int nLinhasTabela = Integer.parseInt(Propriedades.getProp().getProperty("nlinhastabela"));
 
-    Calendar cal = Calendar.getInstance();
-    String mes = "0" + (cal.get(Calendar.MONTH) + 1);
-    private final int dia = cal.get(Calendar.DAY_OF_MONTH);
-    private final int ano = cal.get(Calendar.YEAR);
+    String mes = Universal.getInstance().getMes();
+    private int ano = Universal.getInstance().getAno();
 
     private final String caminho = "C://samm/" + ano + "" + mes + ".EVT/";
     private DefaultTableModel tabelaEventos;
@@ -148,7 +144,7 @@ public class LeitorSamm extends javax.swing.JFrame {
             //Apaga o Conteudo do event.txt para que o winsamm possa salvar novos eventos enquanto as tarefas são executadas
             FileWriter limpaEventTxt = new FileWriter(caminho + "event.txt", false);
             limpaEventTxt.close();
-
+            
             //FileReader server para ler o arquivo de texto expecificado e jogar o resultado para "arquivo"
             FileReader arquivo = new FileReader(caminho + "eventGravarNoBD.txt");
             //copia texto para outro arquivo de texto BKP
@@ -186,9 +182,20 @@ public class LeitorSamm extends javax.swing.JFrame {
                         arrayCamposParte2 = arrayPartes[2].split(" ");
 
                         if (arrayCamposParte2.length >= 3) {
+
+                            String dataVectra = arrayPartes[1];
+                            String horaVectra = arrayPartes[0];
+                            //corrige data do Activenet que envia a data errada -- 1//22
+                            if (dataVectra.contains("//")) { //Se for diferente de -1 é pq existe o caracter.
+                                String quebraDataVectra[] = new String[1];
+                                quebraDataVectra = dataVectra.split("//");
+                                dataVectra = quebraDataVectra[0] + "/" + quebraDataVectra[1];// data = 1/22
+                            }
+                            dataVectra = dataVectra + "/" + ano + " " + horaVectra;
+
                             Evento evento = new Evento();
-                            evento.setEve_data(dataToCalendar(arrayPartes[0]));
-                            evento.setDataVectra(arrayPartes[1]);
+                            evento.setEve_dataHora(Universal.getInstance().dateTimeToCalendar(dataVectra));
+                            evento.setData_data(arrayPartes[1]);
                             evento.setEve_hora(arrayPartes[0]);
 
                             evento.setEve_conta_grupo_receptor(arrayCamposParte2[0]);
@@ -203,10 +210,12 @@ public class LeitorSamm extends javax.swing.JFrame {
                                     evento.setEve_particao(arrayCamposParte2[4]);
                                     evento.setEve_usuario_zona(arrayCamposParte2[5]);
                                 }
-                                tabelaEventos.addRow(new Object[]{calendarToString(evento.getEve_data()), evento.getEve_hora(), evento.getEve_conta_grupo_receptor(), evento.getEve_codigo_cliente(), evento.getEve_protocolo(), evento.getEve_codigo_evento(),
+
+                                tabelaEventos.addRow(new Object[]{Universal.getInstance().calendarToString(evento.getEve_dataHora()), evento.getEve_hora(), evento.getEve_conta_grupo_receptor(), evento.getEve_codigo_cliente(), evento.getEve_protocolo(), evento.getEve_codigo_evento(),
                                     evento.getEve_particao(), evento.getEve_usuario_zona()});
+
                                 leitorDao.persist(evento);
-                                clienteDao.atualizaUltimaComunicacaoCLiente(calendarToString(evento.getEve_data()), evento.getEve_codigo_cliente());
+                                clienteDao.atualizaUltimaComunicacaoCLiente(Universal.getInstance().calendarToString(evento.getEve_dataHora()), evento.getEve_codigo_cliente());
 
                             } catch (NumberFormatException ex) {
                                 System.err.println(ex);
@@ -240,31 +249,4 @@ public class LeitorSamm extends javax.swing.JFrame {
             }
         }
     }
-
-    //pega a data atual mais a hora recebeda pela vectra e converte em calendar
-    public Calendar dataToCalendar(String hora) {
-        Date data = new Date(System.currentTimeMillis());
-        SimpleDateFormat formatarDate = new SimpleDateFormat("yyyy-MM-dd");
-
-        SimpleDateFormat formatoData = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-        String data2 = formatarDate.format(data) + " " + hora;
-        Calendar c = Calendar.getInstance();
-        try {
-            c.setTime(formatoData.parse(data2));
-
-        } catch (ParseException ex) {
-            Logger.getLogger(LeitorSamm.class
-                    .getName()).log(Level.SEVERE, null, ex);
-        }
-        return c;
-    }
-
-    public String calendarToString(Calendar dataHora) {
-        SimpleDateFormat formatoData = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-        String retorno = "";
-        retorno = formatoData.format(dataHora.getTime());
-
-        return retorno;
-    }
-
 }

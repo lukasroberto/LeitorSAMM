@@ -6,7 +6,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
 
 @Entity
 @Table(name = "LEITOR")
@@ -15,10 +14,9 @@ public class Evento implements Serializable {
     @Id
     @GeneratedValue
     private Long eve_id;
-    @Temporal(javax.persistence.TemporalType.DATE)
-    private Calendar eve_data;
+    private Calendar eve_dataHora;
     private String eve_hora;
-    private String dataVectra;
+    private String data_data;
     private String eve_conta_grupo_receptor;
     private int eve_codigo_cliente;
     private String eve_protocolo;
@@ -43,20 +41,20 @@ public class Evento implements Serializable {
         this.eve_id = eve_id;
     }
 
-    public Calendar getEve_data() {
-        return eve_data;
+    public Calendar getEve_dataHora() {
+        return eve_dataHora;
     }
 
-    public void setEve_data(Calendar eve_data) {
-        this.eve_data = eve_data;
+    public void setEve_dataHora(Calendar eve_dataHora) {
+        this.eve_dataHora = eve_dataHora;
     }
 
-    public String getDataVectra() {
-        return dataVectra;
+    public String getData_data() {
+        return data_data;
     }
 
-    public void setDataVectra(String dataVectra) {
-        this.dataVectra = dataVectra;
+    public void setData_data(String data_data) {
+        this.data_data = data_data;
     }
 
     public String getEve_hora() {

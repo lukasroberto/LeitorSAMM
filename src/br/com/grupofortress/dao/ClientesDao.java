@@ -1,15 +1,13 @@
 package br.com.grupofortress.dao;
 
+import br.com.grupofortress.controller.Universal;
 import br.com.grupofortress.model.Cliente;
-import java.util.Calendar;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
 
 public class ClientesDao {
 
@@ -92,7 +90,7 @@ public class ClientesDao {
     public List<Cliente> getClientesSemComunicação() {
         entityManager.getTransaction().begin();
         Query createQuery = entityManager.createQuery("FROM Cliente WHERE (cli_empresa <> 'guardian') AND (cli_monitorado = 'true')\n"
-                + "AND (cli_ultima_comunicacao < '10-06-2015 10:00') ORDER BY cli_ultima_comunicacao DESC");
+                + "AND (cli_ultima_comunicacao < '"+Universal.getInstance().getDataAtualMenosUmDia()+"') ORDER BY cli_ultima_comunicacao DESC");
               return createQuery.getResultList();
     }
 

@@ -3,7 +3,7 @@ package br.com.grupofortress.controller;
 import br.com.grupofortress.dao.ClientesDao;
 import br.com.grupofortress.model.Cliente;
 import java.net.MalformedURLException;
-import java.text.SimpleDateFormat;
+import java.text.Normalizer;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Timer;
@@ -11,6 +11,7 @@ import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.mail.EmailException;
+import propriedades.Propriedades;
 
 /**
  * Classe para manipular a execução de tarefas agendadas automaticamentes
@@ -43,8 +44,9 @@ public class GerarTarefasAgendadas {
         //        1 * 1000 * 60 * 60 * 24);
 
         //Executa tarefa todo dia as 6 da manha
+        int horaHenviaEmail = Integer.parseInt(Propriedades.getProp().getProperty("horaEnviaEmail"));
         Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, 6);
+        calendar.set(Calendar.HOUR_OF_DAY, horaHenviaEmail);
         calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
         Date time = calendar.getTime();
@@ -76,7 +78,7 @@ public class GerarTarefasAgendadas {
                     + "        <tr>\n"
                     + "          <td valign=top><font face=\"verdana, arial, helvetica\" size=1><strong>Código</strong></font></td>\n"
                     + "          <td><font face=\"verdana, arial, helvetica\" size=1><strong>Nome</strong></font></td>\n"
-                    + "          <td><font size=\"1\" face=\"verdana, arial, helvetica\"><strong>Ultima Evento Recebido</strong></font></td>";
+                    + "          <td><font size=\"1\" face=\"verdana, arial, helvetica\"><strong>Ultimo Evento Recebido</strong></font></td>";
 
             for (Cliente cliente : cli.getClientesSemComunicação()) {
                 qtdSemComunicacao++;
@@ -84,7 +86,7 @@ public class GerarTarefasAgendadas {
                 msg = msg + "<tr>"
                         + "  <td valign=top><font face=\"verdana, arial, helvetica\" size=1>" + cliente.getCli_codigo() + "</font></td>\n"
                         + "  <td><font face=\"verdana, arial, helvetica\" size=1>" + cliente.getCli_nome() + "</font></td>\n"
-                        + "  <td><font size=\"1\" face=\"verdana, arial, helvetica\">" + calendarToString(cliente.getCli_ultima_comunicacao()) + "</font></td>"
+                        + "  <td><font size=\"1\" face=\"verdana, arial, helvetica\">" + Universal.getInstance().calendarToString(cliente.getCli_ultima_comunicacao()) + "</font></td>"
                         + "</tr>";
 
             }
@@ -98,23 +100,17 @@ public class GerarTarefasAgendadas {
             CommonsMail enviaEmail = new CommonsMail();
 
             try {
-                enviaEmail.enviaEmailFormatoHtml(msg);
+                enviaEmail.enviaEmailFormatoHtml(formatString(msg));
             } catch (EmailException ex) {
                 Logger.getLogger(GerarTarefasAgendadas.class.getName()).log(Level.SEVERE, null, ex);
             } catch (MalformedURLException ex) {
                 Logger.getLogger(GerarTarefasAgendadas.class.getName()).log(Level.SEVERE, null, ex);
             }
-
-            System.out.println(msg);
-
         }
     }
 
-    public String calendarToString(Calendar dataHora) {
-        SimpleDateFormat formatoData = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-        String retorno = "";
-        retorno = formatoData.format(dataHora.getTime());
-
-        return retorno;
+    public static String formatString(String s) {
+        String temp = Normalizer.normalize(s, java.text.Normalizer.Form.NFD);
+        return temp.replaceAll("[^\\p{ASCII}]", "");
     }
 }
