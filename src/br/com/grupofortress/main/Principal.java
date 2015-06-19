@@ -16,14 +16,17 @@ public class Principal {
 
     private static final int intervaloTime = Integer.parseInt(Propriedades.getProp().getProperty("intervalotime"));
     private static final int qtqTimer = Integer.parseInt(Propriedades.getProp().getProperty("qtqtimer"));
+    private static final String enviaEmailOnOff = Propriedades.getProp().getProperty("enviaEmailOnOff");
+
     private static LeitorSamm n;
     private static int conta = 0;
 
     public static void main(String[] args) {
 
         n = new LeitorSamm();
-
-        GerarTarefasAgendadas.getInstance().iniciar();
+        if (enviaEmailOnOff.equals("on")) {
+            GerarTarefasAgendadas.getInstance().iniciar();
+        }
         java.util.Timer timer = new java.util.Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
             public void run() {

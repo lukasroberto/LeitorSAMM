@@ -14,9 +14,9 @@ public class Evento implements Serializable {
     @Id
     @GeneratedValue
     private Long eve_id;
-    private Calendar eve_dataHora;
+    private Calendar eve_data_hora;
     private String eve_hora;
-    private String data_data;
+    private String eve_data;
     private String eve_conta_grupo_receptor;
     private int eve_codigo_cliente;
     private String eve_protocolo;
@@ -41,20 +41,20 @@ public class Evento implements Serializable {
         this.eve_id = eve_id;
     }
 
-    public Calendar getEve_dataHora() {
-        return eve_dataHora;
+    public Calendar getEve_data_hora() {
+        return eve_data_hora;
     }
 
-    public void setEve_dataHora(Calendar eve_dataHora) {
-        this.eve_dataHora = eve_dataHora;
+    public void setEve_data_hora(Calendar eve_data_hora) {
+        this.eve_data_hora = eve_data_hora;
     }
 
-    public String getData_data() {
-        return data_data;
+    public String getEve_data() {
+        return eve_data;
     }
 
-    public void setData_data(String data_data) {
-        this.data_data = data_data;
+    public void setEve_data(String eve_data) {
+        this.eve_data = eve_data;
     }
 
     public String getEve_hora() {

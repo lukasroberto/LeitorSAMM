@@ -82,7 +82,7 @@ public class Universal {
     public Calendar dateTimeToCalendar(String dateTime) {
         Calendar c = Calendar.getInstance();
         try {
-            SimpleDateFormat formatoData = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+            SimpleDateFormat formatoData = new SimpleDateFormat("MM/dd/yyyy HH:mm");
             c.setTime(formatoData.parse(dateTime));
         } catch (Exception e) {
             System.out.println(e);

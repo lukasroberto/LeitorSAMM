@@ -109,7 +109,7 @@ public final class CommonsMail {
                 email.setHostName(serverMail); // o servidor SMTP para envio do e-mail
                 email.addTo(enviaPara); //destinatário
                 email.setFrom(de); // remetente
-                email.setSubject("Teste"); // assunto do e-mail
+                email.setSubject("Relatório de Comunicação"); // assunto do e-mail
                 email.setMsg(msg); //conteudo do e-mail
                 email.setAuthentication(user, senha);
                 email.setSmtpPort(587);

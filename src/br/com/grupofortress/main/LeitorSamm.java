@@ -194,8 +194,8 @@ public class LeitorSamm extends javax.swing.JFrame {
                             dataVectra = dataVectra + "/" + ano + " " + horaVectra;
 
                             Evento evento = new Evento();
-                            evento.setEve_dataHora(Universal.getInstance().dateTimeToCalendar(dataVectra));
-                            evento.setData_data(arrayPartes[1]);
+                            evento.setEve_data_hora(Universal.getInstance().dateTimeToCalendar(dataVectra));
+                            evento.setEve_data(arrayPartes[1]);
                             evento.setEve_hora(arrayPartes[0]);
 
                             evento.setEve_conta_grupo_receptor(arrayCamposParte2[0]);
@@ -211,11 +211,11 @@ public class LeitorSamm extends javax.swing.JFrame {
                                     evento.setEve_usuario_zona(arrayCamposParte2[5]);
                                 }
 
-                                tabelaEventos.addRow(new Object[]{Universal.getInstance().calendarToString(evento.getEve_dataHora()), evento.getEve_hora(), evento.getEve_conta_grupo_receptor(), evento.getEve_codigo_cliente(), evento.getEve_protocolo(), evento.getEve_codigo_evento(),
+                                tabelaEventos.addRow(new Object[]{Universal.getInstance().calendarToString(evento.getEve_data_hora()), evento.getEve_hora(), evento.getEve_conta_grupo_receptor(), evento.getEve_codigo_cliente(), evento.getEve_protocolo(), evento.getEve_codigo_evento(),
                                     evento.getEve_particao(), evento.getEve_usuario_zona()});
 
                                 leitorDao.persist(evento);
-                                clienteDao.atualizaUltimaComunicacaoCLiente(Universal.getInstance().calendarToString(evento.getEve_dataHora()), evento.getEve_codigo_cliente());
+                                clienteDao.atualizaUltimaComunicacaoCLiente(Universal.getInstance().calendarToString(evento.getEve_data_hora()), evento.getEve_codigo_cliente());
 
                             } catch (NumberFormatException ex) {
                                 System.err.println(ex);

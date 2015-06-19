@@ -82,7 +82,7 @@ public class ClientesDao {
 
     public void atualizaUltimaComunicacaoCLiente(String data, int cli_codigo) {
         entityManager.getTransaction().begin();
-        Query createQuery = entityManager.createQuery("UPDATE " + Cliente.class.getName() + " SET cli_monitorado = '1', cli_ultima_comunicacao = '" + data + "' WHERE (cli_codigo = '" + cli_codigo + "')");
+        Query createQuery = entityManager.createQuery("UPDATE " + Cliente.class.getName() + " SET cli_ultima_comunicacao = '" + data + "' WHERE (cli_codigo = '" + cli_codigo + "')");
         createQuery.executeUpdate();
         entityManager.getTransaction().commit();
     }

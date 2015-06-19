@@ -31,6 +31,7 @@ public class Cliente implements Serializable {
     private String cli_comunicacao;
     private boolean cli_monitorado;
     private Calendar cli_ultima_comunicacao;
+    private String cli_obs;
 
     public Long getCli_codigo() {
         return cli_codigo;
@@ -150,6 +151,14 @@ public class Cliente implements Serializable {
 
     public void setCli_monitorado(boolean cli_monitorado) {
         this.cli_monitorado = cli_monitorado;
+    }
+
+    public String getCli_obs() {
+        return cli_obs;
+    }
+
+    public void setCli_obs(String cli_obs) {
+        this.cli_obs = cli_obs;
     }
 
 }
