@@ -3,7 +3,7 @@ package br.com.grupofortress.controller;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
+import java.util.Date;
 import propriedades.Propriedades;
 
 /**
@@ -21,18 +21,25 @@ public class Universal {
         }
         return instance;
     }
+    //retorna data e hora atual
+    private Date dataHoraAtual = new Date(System.currentTimeMillis());
 
-    //retorna dada, me, dia, ano, Hora atual
-    Calendar cal = Calendar.getInstance();
-    String mes = "0" + (cal.get(Calendar.MONTH) + 1);
+    //retorna dada, mes, dia, ano, Hora atual
+    private Calendar cal = Calendar.getInstance();
+    private String mes = "0" + (cal.get(Calendar.MONTH) + 1);
     private int dia = cal.get(Calendar.DAY_OF_MONTH);
     private int ano = cal.get(Calendar.YEAR);
     private String data = dia + "/" + mes + "/" + ano;
 
-    //recupera Hora Atual
-    GregorianCalendar teste = new GregorianCalendar();
-    SimpleDateFormat teste2 = new SimpleDateFormat("HH:mm");
-    String horaAtual = teste2.format(teste.getTime());
+    //recupera hora, minutos e segundos
+    private int hora = cal.get(Calendar.HOUR_OF_DAY);
+    private int minuto = cal.get(Calendar.MINUTE);
+    private int segundo = cal.get(Calendar.SECOND);
+    private String horaMinSegAtual = hora + ":" + minuto + ":" + segundo;
+
+    public Date getDataHoraAtual() {
+        return dataHoraAtual;
+    }
 
     public String getMes() {
         return mes;
@@ -50,12 +57,17 @@ public class Universal {
         return data;
     }
 
-    public String gethoraAtual() {
-        return horaAtual;
+    public String getHoraMinSegAtual() {
+        return horaMinSegAtual;
     }
 
-    public String getDataAtualMenosUmDia() {
-        return dia - 1 + "/" + mes + "/" + ano + " " + horaAtual;
+    public void setHoraMinSegAtual(String horaMinSegAtual) {
+        this.horaMinSegAtual = horaMinSegAtual;
+    }
+
+    public String getDataAtualMenosDiaMenosHora(int dias, int horas) {
+
+        return dia - dias + "/" + mes + "/" + ano + " " + (hora - horas) + ":" + minuto + ":" + segundo;
     }
 
     //reinicia o Leitor completamente

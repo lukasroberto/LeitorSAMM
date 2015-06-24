@@ -8,6 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
+import propriedades.Propriedades;
 
 public class ClientesDao {
 
@@ -88,9 +89,12 @@ public class ClientesDao {
     }
 
     public List<Cliente> getClientesSemComunicação() {
+    int dias = Integer.parseInt(Propriedades.getProp().getProperty("dias"));
+    int horas = Integer.parseInt(Propriedades.getProp().getProperty("horas"));
+
         entityManager.getTransaction().begin();
         Query createQuery = entityManager.createQuery("FROM Cliente WHERE (cli_empresa <> 'guardian') AND (cli_monitorado = 'true')\n"
-                + "AND (cli_ultima_comunicacao < '"+Universal.getInstance().getDataAtualMenosUmDia()+"') ORDER BY cli_ultima_comunicacao DESC");
+                + "AND (cli_ultima_comunicacao < '"+Universal.getInstance().getDataAtualMenosDiaMenosHora(dias,horas)+"') ORDER BY cli_ultima_comunicacao DESC");
               return createQuery.getResultList();
     }
 
