@@ -46,7 +46,7 @@ public class Agendamentos {
                         + "          <td><font face=\"verdana, arial, helvetica\" size=1><strong>Nome</strong></font></td>\n"
                         + "          <td><font size=\"1\" face=\"verdana, arial, helvetica\"><strong>Ultimo Evento Recebido</strong></font></td>";
 
-                for (Cliente cliente : cli.getClientesSemComunicação()) {
+                for (Cliente cliente : cli.getClientesSemComunicacao("")) {
                     qtdSemComunicacao++;
 
                     msg = msg + "<tr>"

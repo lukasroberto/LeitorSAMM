@@ -88,12 +88,12 @@ public class ClientesDao {
         entityManager.getTransaction().commit();
     }
 
-    public List<Cliente> getClientesSemComunicação() {
+    public List<Cliente> getClientesSemComunicacao(String empresa) {
     int dias = Integer.parseInt(Propriedades.getProp().getProperty("dias"));
     int horas = Integer.parseInt(Propriedades.getProp().getProperty("horas"));
 
         entityManager.getTransaction().begin();
-        Query createQuery = entityManager.createQuery("FROM Cliente WHERE (cli_empresa <> 'guardian') AND (cli_monitorado = 'true')\n"
+        Query createQuery = entityManager.createQuery("FROM Cliente WHERE (cli_empresa = '"+empresa+"') AND (cli_monitorado = 'true')\n"
                 + "AND (cli_ultima_comunicacao < '"+Universal.getInstance().getDataAtualMenosDiaMenosHora(dias,horas)+"') ORDER BY cli_ultima_comunicacao DESC");
               return createQuery.getResultList();
     }

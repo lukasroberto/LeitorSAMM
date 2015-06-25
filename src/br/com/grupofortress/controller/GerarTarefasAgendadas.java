@@ -2,15 +2,11 @@ package br.com.grupofortress.controller;
 
 import br.com.grupofortress.dao.ClientesDao;
 import br.com.grupofortress.model.Cliente;
-import java.net.MalformedURLException;
 import java.text.Normalizer;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.apache.commons.mail.EmailException;
 import propriedades.Propriedades;
 
 /**
@@ -68,15 +64,16 @@ public class GerarTarefasAgendadas {
     }
 
     public void enviaEmail() {
-
-        ClientesDao cli = new ClientesDao();
-        int qtdSemComunicacao = 0;
-        String msg = "<table width=\"100%\" cellspacing=\"1\" cellpadding=\"3\" border=\"0\" bgcolor=\"#CCCCCC\">\n"
+        //Clientes Sem comunicação Fortress
+        ClientesDao cli;
+        cli = new ClientesDao();
+        int qtdSemComunicacaoFortess = 0;
+        String msgFortess = "<table width=\"100%\" cellspacing=\"1\" cellpadding=\"5\" border=\"0\" bgcolor=\"#CCCCCC\">\n"
                 + "  <tr>\n"
-                + "    <td bgcolor=\"#CC0000\"><font size=1 face=\"verdana, arial, helvetica\" color=\"#FFFFFF\"><b>Clientes Sem Comunicação</b></font></td>\n"
+                + "    <td bgcolor=\"#375483\"><font size=2 face=\"verdana, arial, helvetica\" color=\"#FFFFFF\"><b>Clientes Sem Comunicação Fortress</b></font></td>\n"
                 + "  </tr>\n"
                 + "  <tr>\n"
-                + "    <td bgcolor=\"#F5ECB9\"><table width=\"95%\" cellspacing=\"1\" cellpadding=\"1\" border=\"0\" align=\"center\">\n"
+                + "    <td bgcolor=\"#F5F5F5\"><table width=\"95%\" cellspacing=\"1\" cellpadding=\"1\" border=\"0\" align=\"center\">\n"
                 + "        <tr>\n"
                 + "          <td valign=top><font face=\"verdana, arial, helvetica\" size=1><strong>Código</strong></font></td>\n"
                 + "          <td><font face=\"verdana, arial, helvetica\" size=1><strong>Nome</strong></font></td>\n"
@@ -84,8 +81,8 @@ public class GerarTarefasAgendadas {
                 + "          <td><font size=\"1\" face=\"verdana, arial, helvetica\"><strong>Observação</strong></font></td>"
                 + "          <td><font size=\"1\" face=\"verdana, arial, helvetica\"><strong></strong></font></td>";
 
-        for (Cliente cliente : cli.getClientesSemComunicação()) {
-            qtdSemComunicacao++;
+        for (Cliente cliente : cli.getClientesSemComunicacao("Fortress")) {
+            qtdSemComunicacaoFortess++;
             String cli_obs = cliente.getCli_obs();
             String editar_obs = "";
             Long cli_codigo = cliente.getCli_codigo();
@@ -97,7 +94,7 @@ public class GerarTarefasAgendadas {
 
             }
 
-            msg = msg + "<tr>"
+            msgFortess = msgFortess + "<tr>"
                     + "  <td valign=top><font face=\"verdana, arial, helvetica\" size=1>" + cli_codigo + "</font></td>\n"
                     + "  <td><font face=\"verdana, arial, helvetica\" size=1>" + cliente.getCli_nome() + "</font></td>\n"
                     + "  <td><font size=\"1\" face=\"verdana, arial, helvetica\">" + Universal.getInstance().calendarToString(cliente.getCli_ultima_comunicacao()) + "</font></td>"
@@ -106,22 +103,62 @@ public class GerarTarefasAgendadas {
                     + "</tr>";
 
         }
-        msg = msg + "      </table></td>\n"
+        msgFortess = msgFortess + "      </table></td>\n"
                 + "  </tr>\n"
                 + "  <tr>\n"
-                + "      <td bgcolor=\"#CCCCCC\"><font size=1 face=\"verdana, arial, helvetica\"><b>Total de Clientes sem Comunicação: " + qtdSemComunicacao + "</b></font></td>\n"
+                + "      <td bgcolor=\"#CCCCCC\"><font size=2 face=\"verdana, arial, helvetica\"><b>Total de Clientes sem comunicação Fortress: " + qtdSemComunicacaoFortess + "</b></font></td>\n"
+                + "</tr>"
+                + "</table> <p>";
+        
+        
+        //Clientes Sem comunicação Logus
+                int qtdSemComunicacaoLogus = 0;
+        String msgLogus = "<table width=\"100%\" cellspacing=\"1\" cellpadding=\"5\" border=\"0\" bgcolor=\"#CCCCCC\">\n"
+                + "  <tr>\n"
+                + "    <td bgcolor=\"#A81313\"><font size=2 face=\"verdana, arial, helvetica\" color=\"#FFFFFF\"><b>Clientes Sem Comunicação Logus</b></font></td>\n"
+                + "  </tr>\n"
+                + "  <tr>\n"
+                + "    <td bgcolor=\"#F5F5F5\"><table width=\"95%\" cellspacing=\"1\" cellpadding=\"1\" border=\"0\" align=\"center\">\n"
+                + "        <tr>\n"
+                + "          <td valign=top><font face=\"verdana, arial, helvetica\" size=1><strong>Código</strong></font></td>\n"
+                + "          <td><font face=\"verdana, arial, helvetica\" size=1><strong>Nome</strong></font></td>\n"
+                + "          <td><font size=\"1\" face=\"verdana, arial, helvetica\"><strong>Ultimo Evento Recebido</strong></font></td>"
+                + "          <td><font size=\"1\" face=\"verdana, arial, helvetica\"><strong>Observação</strong></font></td>"
+                + "          <td><font size=\"1\" face=\"verdana, arial, helvetica\"><strong></strong></font></td>";
+
+        cli = new ClientesDao();
+        for (Cliente cliente : cli.getClientesSemComunicacao("Logus")) {
+            qtdSemComunicacaoLogus++;
+            String cli_obs = cliente.getCli_obs();
+            String editar_obs = "";
+            Long cli_codigo = cliente.getCli_codigo();
+
+            if (cli_obs == null || cli_obs.trim().isEmpty()) {
+                cli_obs = "<a href=\"http://192.168.0.198/fortress/view/cliente/edita_obs.php?operacao=update&clicodigo=" + cli_codigo + "\">Adicionar Obs.</a>";
+            } else {
+                editar_obs = "<a href=\"http://192.168.0.198/fortress/view/cliente/edita_obs.php?operacao=update&clicodigo=" + cli_codigo + "\">Editar Obs.</a>";
+
+            }
+
+            msgLogus = msgLogus + "<tr>"
+                    + "  <td valign=top><font face=\"verdana, arial, helvetica\" size=1>" + cli_codigo + "</font></td>\n"
+                    + "  <td><font face=\"verdana, arial, helvetica\" size=1>" + cliente.getCli_nome() + "</font></td>\n"
+                    + "  <td><font size=\"1\" face=\"verdana, arial, helvetica\">" + Universal.getInstance().calendarToString(cliente.getCli_ultima_comunicacao()) + "</font></td>"
+                    + "  <td><font size=\"1\" face=\"verdana, arial, helvetica\">" + cli_obs + "</font></td>"
+                    + "  <td><font size=\"1\" face=\"verdana, arial, helvetica\">" + editar_obs + "</font></td>"
+                    + "</tr>";
+
+        }
+        msgLogus = msgLogus + "      </table></td>\n"
+                + "  </tr>\n"
+                + "  <tr>\n"
+                + "      <td bgcolor=\"#CCCCCC\"><font size=2 face=\"verdana, arial, helvetica\"><b>Total de Clientes sem comunicação  Logus: " + qtdSemComunicacaoLogus + "</b></font></td>\n"
                 + "</tr>"
                 + "</table> ";
 
         CommonsMail enviaEmail = new CommonsMail();
 
-        try {
-            enviaEmail.enviaEmailFormatoHtml(formatString(msg));
-        } catch (EmailException ex) {
-            Logger.getLogger(GerarTarefasAgendadas.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MalformedURLException ex) {
-            Logger.getLogger(GerarTarefasAgendadas.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        System.out.println(formatString(msgFortess+msgLogus));
 
     }
 }
