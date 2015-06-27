@@ -2,11 +2,15 @@ package br.com.grupofortress.controller;
 
 import br.com.grupofortress.dao.ClientesDao;
 import br.com.grupofortress.model.Cliente;
+import java.net.MalformedURLException;
 import java.text.Normalizer;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.apache.commons.mail.EmailException;
 import propriedades.Propriedades;
 
 /**
@@ -158,7 +162,13 @@ public class GerarTarefasAgendadas {
 
         CommonsMail enviaEmail = new CommonsMail();
 
-        System.out.println(formatString(msgFortess+msgLogus));
+        try {
+            enviaEmail.enviaEmailFormatoHtml(formatString(msgFortess+msgLogus));
+        } catch (EmailException ex) {
+            Logger.getLogger(GerarTarefasAgendadas.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(GerarTarefasAgendadas.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }
 }
