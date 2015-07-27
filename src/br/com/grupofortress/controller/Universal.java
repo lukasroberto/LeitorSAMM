@@ -1,6 +1,7 @@
 package br.com.grupofortress.controller;
 
 import java.io.IOException;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -22,7 +23,6 @@ public class Universal {
         return instance;
     }
     //retorna data e hora atual
-    private Date dataHoraAtual = new Date(System.currentTimeMillis());
 
     //retorna dada, mes, dia, ano, Hora atual
     private Calendar cal = Calendar.getInstance();
@@ -37,9 +37,12 @@ public class Universal {
     private int segundo = cal.get(Calendar.SECOND);
     private String horaMinSegAtual = hora + ":" + minuto + ":" + segundo;
 
-    public Date getDataHoraAtual() {
-        return dataHoraAtual;
+    public String getDataHoraAtual() { 
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss"); 
+        Date date = new Date(); 
+        return dateFormat.format(date); 
     }
+
 
     public String getMes() {
         return mes;

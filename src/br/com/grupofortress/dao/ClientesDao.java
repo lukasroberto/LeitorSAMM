@@ -88,14 +88,21 @@ public class ClientesDao {
         entityManager.getTransaction().commit();
     }
 
+    public void atualizaRelatComunicacao(String data, int cli_codigo) {
+        entityManager.getTransaction().begin();
+        Query createQuery = entityManager.createQuery("UPDATE " + Cliente.class.getName() + " SET cli_ultima_comunicacao = '" + data + "' WHERE (cli_codigo = '" + cli_codigo + "')");
+        createQuery.executeUpdate();
+        entityManager.getTransaction().commit();
+    }
+
     public List<Cliente> getClientesSemComunicacao(String empresa) {
-    int dias = Integer.parseInt(Propriedades.getProp().getProperty("dias"));
-    int horas = Integer.parseInt(Propriedades.getProp().getProperty("horas"));
+        int dias = Integer.parseInt(Propriedades.getProp().getProperty("dias"));
+        int horas = Integer.parseInt(Propriedades.getProp().getProperty("horas"));
 
         entityManager.getTransaction().begin();
-        Query createQuery = entityManager.createQuery("FROM Cliente WHERE (cli_empresa = '"+empresa+"') AND (cli_monitorado = 'true')\n"
-                + "AND (cli_ultima_comunicacao < '"+Universal.getInstance().getDataAtualMenosDiaMenosHora(dias,horas)+"') ORDER BY cli_ultima_comunicacao DESC");
-              return createQuery.getResultList();
+        Query createQuery = entityManager.createQuery("FROM Cliente WHERE (cli_empresa = '" + empresa + "') AND (cli_monitorado = 'true')\n"
+                + "AND (cli_ultima_comunicacao < '" + Universal.getInstance().getDataAtualMenosDiaMenosHora(dias, horas) + "') ORDER BY cli_ultima_comunicacao DESC");
+        return createQuery.getResultList();
     }
 
 }

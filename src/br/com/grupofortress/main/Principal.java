@@ -1,6 +1,7 @@
 package br.com.grupofortress.main;
 
-import br.com.grupofortress.controller.GerarTarefasAgendadas;
+import br.com.grupofortress.controller.EmailStatusComunicacao;
+import br.com.grupofortress.controller.AgendadeTarefas;
 import br.com.grupofortress.controller.Universal;
 import java.awt.*;
 import java.awt.event.*;
@@ -25,7 +26,7 @@ public class Principal {
 
         n = new LeitorSamm();
         if (enviaEmailOnOff.equals("on")) {
-            GerarTarefasAgendadas.getInstance().iniciar();
+            AgendadeTarefas.getInstance().iniciar();
         }
         java.util.Timer timer = new java.util.Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
@@ -77,6 +78,7 @@ public class Principal {
         MenuItem aboutItem = new MenuItem("Abrir");
         MenuItem configItem = new MenuItem("Configurar");
         MenuItem exitItem = new MenuItem("Exit");
+        MenuItem mailComunicacao = new MenuItem("Enviar E-mail de Comunicação");
 
         //Add components to popup menu
         popup.add(aboutItem);
@@ -84,6 +86,7 @@ public class Principal {
         popup.add(configItem);
         popup.addSeparator();
         popup.add(exitItem);
+        popup.add(mailComunicacao);
 
         trayIcon.setPopupMenu(popup);
 
@@ -112,6 +115,16 @@ public class Principal {
 
             }
         });
+        mailComunicacao.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (EmailStatusComunicacao.getInstance().enviaEmailComunicacao() == true) {
+                    JOptionPane.showMessageDialog(n, "Ola, seu E-mail de Falha de comunicação foi enviado com sucesso!");
+                } else {
+                    JOptionPane.showMessageDialog(n, "Desculpe, algo deu errado e o E-mail não pode ser enviado.");
+                }
+
+            }
+        });
         trayIcon.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 n.setVisible(true);
@@ -124,6 +137,7 @@ public class Principal {
                 System.exit(0);
             }
         });
+
     }
 
     //Obtain the image URL
