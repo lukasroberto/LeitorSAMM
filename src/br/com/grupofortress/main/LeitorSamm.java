@@ -3,6 +3,7 @@ package br.com.grupofortress.main;
 import br.com.grupofortress.controller.Universal;
 import br.com.grupofortress.dao.ClientesDao;
 import br.com.grupofortress.dao.LeitorDao;
+import br.com.grupofortress.model.Cliente;
 import br.com.grupofortress.model.Evento;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -144,7 +145,7 @@ public class LeitorSamm extends javax.swing.JFrame {
             //Apaga o Conteudo do event.txt para que o winsamm possa salvar novos eventos enquanto as tarefas são executadas
             FileWriter limpaEventTxt = new FileWriter(caminho + "event.txt", false);
             limpaEventTxt.close();
-            
+
             //FileReader server para ler o arquivo de texto expecificado e jogar o resultado para "arquivo"
             FileReader arquivo = new FileReader(caminho + "eventGravarNoBD.txt");
             //copia texto para outro arquivo de texto BKP
@@ -200,7 +201,7 @@ public class LeitorSamm extends javax.swing.JFrame {
 
                             evento.setEve_conta_grupo_receptor(arrayCamposParte2[0]);
                             try {
-                                evento.setEve_codigo_cliente(Integer.parseInt(arrayCamposParte2[1]));
+                                evento.setEve_codigo_cliente(Long.parseLong(arrayCamposParte2[1]));
 
                                 evento.setEve_codigo_evento(arrayCamposParte2[2]);
 
@@ -215,7 +216,13 @@ public class LeitorSamm extends javax.swing.JFrame {
                                     evento.getEve_particao(), evento.getEve_usuario_zona()});
 
                                 leitorDao.persist(evento);
-                                clienteDao.atualizaUltimaComunicacaoCLiente(Universal.getInstance().calendarToString(evento.getEve_data_hora()), evento.getEve_codigo_cliente());
+                                //clienteDao.atualizaUltimaComunicacaoCLiente(Universal.getInstance().calendarToString(evento.getEve_data_hora()), evento.getEve_codigo_cliente());
+                                
+                                Cliente cliente = clienteDao.getById(evento.getEve_codigo_cliente());
+                                cliente.setCli_ultima_comunicacao(evento.getEve_data_hora());
+                                cliente.setCli_codigo(evento.getEve_codigo_cliente());
+                                                                                                
+                                clienteDao.merge(cliente);
 
                             } catch (NumberFormatException ex) {
                                 System.err.println(ex);

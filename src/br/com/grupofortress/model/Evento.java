@@ -18,7 +18,7 @@ public class Evento implements Serializable {
     private String eve_hora;
     private String eve_data;
     private String eve_conta_grupo_receptor;
-    private int eve_codigo_cliente;
+    private Long eve_codigo_cliente;
     private String eve_protocolo;
     private String eve_codigo_evento;
     private String eve_particao;
@@ -73,11 +73,11 @@ public class Evento implements Serializable {
         this.eve_conta_grupo_receptor = eve_conta_grupo_receptor;
     }
 
-    public int getEve_codigo_cliente() {
+    public Long getEve_codigo_cliente() {
         return eve_codigo_cliente;
     }
 
-    public void setEve_codigo_cliente(int eve_codigo_cliente) {
+    public void setEve_codigo_cliente(Long eve_codigo_cliente) {
         this.eve_codigo_cliente = eve_codigo_cliente;
     }
 

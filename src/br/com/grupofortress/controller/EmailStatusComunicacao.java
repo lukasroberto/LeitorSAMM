@@ -56,7 +56,7 @@ public class EmailStatusComunicacao {
                 + "          <td><font size=\"1\" face=\"verdana, arial, helvetica\"><strong>Observação</strong></font></td>"
                 + "          <td><font size=\"1\" face=\"verdana, arial, helvetica\"><strong></strong></font></td>";
 
-        for (Cliente cliente : cliDao.getClientesSemComunicacao("Fortress")) {
+        for (Cliente cliente : cliDao.getClientesSemComunicacao(3)) {
             
             qtdSemComunicacaoFortress++;
             String cli_obs = cliente.getCli_obs();
@@ -116,7 +116,7 @@ public class EmailStatusComunicacao {
                 + "          <td><font size=\"1\" face=\"verdana, arial, helvetica\"><strong></strong></font></td>";
 
         cliDao = new ClientesDao();
-        for (Cliente cliente : cliDao.getClientesSemComunicacao("Logus")) {
+        for (Cliente cliente : cliDao.getClientesSemComunicacao(6)) {
             qtdSemComunicacaoLogus++;
             String cli_obs = cliente.getCli_obs();
             String editar_obs = "";

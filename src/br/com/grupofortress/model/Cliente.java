@@ -5,7 +5,6 @@ import java.util.Calendar;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
 
 /**
  *
@@ -32,6 +31,15 @@ public class Cliente implements Serializable {
     private boolean cli_monitorado;
     private Calendar cli_ultima_comunicacao;
     private String cli_obs;
+    private Calendar cli_data_cancelado_mon;
+
+    public Calendar getCli_data_cancelado_mon() {
+        return cli_data_cancelado_mon;
+    }
+
+    public void setCli_data_cancelado_mon(Calendar cli_data_cancelado_mon) {
+        this.cli_data_cancelado_mon = cli_data_cancelado_mon;
+    }
 
     public Long getCli_codigo() {
         return cli_codigo;
