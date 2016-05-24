@@ -36,7 +36,11 @@ public class Principal {
                     conta = 0;
                     Universal.reiniciaAplicativo();
                 } else {
-                    n.net();
+                    try {
+                        n.net();
+                    } catch (IOException ex) {
+                        Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
             }
         }, 5000, intervaloTime);
@@ -86,7 +90,11 @@ public class Principal {
         popup.add(configItem);
         popup.addSeparator();
         popup.add(exitItem);
-        popup.add(mailComunicacao);
+        if (enviaEmailOnOff.equals("on")) {
+            popup.add(mailComunicacao);
+        }else{
+            popup.add(mailComunicacao).disable();
+        }
 
         trayIcon.setPopupMenu(popup);
 

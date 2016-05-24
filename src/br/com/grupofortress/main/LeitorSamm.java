@@ -6,16 +6,12 @@ import br.com.grupofortress.dao.LeitorDao;
 import br.com.grupofortress.model.Cliente;
 import br.com.grupofortress.model.Evento;
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 import javax.swing.WindowConstants;
 import javax.swing.table.DefaultTableModel;
 import propriedades.Propriedades;
@@ -35,6 +31,7 @@ public class LeitorSamm extends javax.swing.JFrame {
     private final String caminho = "C://samm/" + ano + "" + mes + ".EVT/";
     private DefaultTableModel tabelaEventos;
     private static int conta = 0;
+    static Logger logger = Logger.getLogger(LeitorSamm.class);
 
     public LeitorSamm() {
         initComponents();
@@ -121,7 +118,7 @@ public class LeitorSamm extends javax.swing.JFrame {
     private javax.swing.JTable tbEventosRecebidos;
     // End of variables declaration//GEN-END:variables
 
-    void net() {
+    void net() throws IOException {
 
         tabelaEventos = (DefaultTableModel) tbEventosRecebidos.getModel();
 
@@ -158,6 +155,8 @@ public class LeitorSamm extends javax.swing.JFrame {
             String saida;
             String arrayPartes[] = new String[3];
             String arrayCamposParte2[] = new String[6];
+            String dataVectra;
+            String horaVectra;
 
             LeitorDao leitorDao = null;
             ClientesDao clienteDao = null;
@@ -170,28 +169,24 @@ public class LeitorSamm extends javax.swing.JFrame {
                 leitorDao = new LeitorDao();
                 clienteDao = new ClientesDao();
                 while ((saida = entrada.readLine()) != null) {
-                    //Grava a linha em um arquivo de BKP eventBKP.txt
+                    System.out.println("entrou");                    //Grava a linha em um arquivo de BKP eventBKP.txt
                     //destinoBKP.write(saida.getBytes());
                     //destinoBKP.write(System.getProperty("line.separator").getBytes());
 
                     saida = saida.replace(grupocontaReceptora + " OKAY ", "");
                     saida = saida.replace("@", "");
+                    saida = saida.replace("ER@", "");
 
                     arrayPartes = saida.split("  ");
                     if (arrayPartes.length == 3) {
 
+                        // Le Protocolo MCDI
                         arrayCamposParte2 = arrayPartes[2].split(" ");
+                        dataVectra = arrayPartes[1];
+                        horaVectra = arrayPartes[0];
 
                         if (arrayCamposParte2.length >= 3) {
 
-                            String dataVectra = arrayPartes[1];
-                            String horaVectra = arrayPartes[0];
-                            //corrige data do Activenet que envia a data errada -- 1//22
-                            if (dataVectra.contains("//")) { //Se for diferente de -1 é pq existe o caracter.
-                                String quebraDataVectra[] = new String[1];
-                                quebraDataVectra = dataVectra.split("//");
-                                dataVectra = quebraDataVectra[0] + "/" + quebraDataVectra[1];// data = 1/22
-                            }
                             dataVectra = dataVectra + "/" + ano + " " + horaVectra;
 
                             Evento evento = new Evento();
@@ -216,44 +211,107 @@ public class LeitorSamm extends javax.swing.JFrame {
                                     evento.getEve_particao(), evento.getEve_usuario_zona()});
 
                                 leitorDao.persist(evento);
-                                //clienteDao.atualizaUltimaComunicacaoCLiente(Universal.getInstance().calendarToString(evento.getEve_data_hora()), evento.getEve_codigo_cliente());
-                                
+                                try {
+
+                                    Cliente cliente = clienteDao.getById(evento.getEve_codigo_cliente());
+                                    cliente.setCli_ultima_comunicacao(evento.getEve_data_hora());
+                                    cliente.setCli_obs(null);
+                                    cliente.setCli_codigo(evento.getEve_codigo_cliente());
+                                    clienteDao.merge(cliente);
+
+                                } catch (NullPointerException nulo) {
+                                    
+                                    Cliente cli = new Cliente();
+                                    cli.setCli_codigo(evento.getEve_codigo_cliente());
+                                    cli.setCli_nome("Cadastrar");
+                                    cli.setCli_monitorado(true);
+                                    cli.setCli_ultima_comunicacao(Universal.getInstance().dateTimeToCalendar(Universal.getInstance().getDataHoraAtual("dd/MM/yyyy HH:mm:ss")));
+                                    clienteDao.persist(cli);
+
+                                    
+                                logger.error(nulo.toString() + "Cadastrar Cliente: " + evento.getEve_codigo_cliente());
+                                }
+                            } catch (NumberFormatException ex) {
+                                logger.error(ex.toString());
+                            }
+                        }
+                    } else {
+                        //Ler Adenco
+                        arrayCamposParte2 = saida.split(" ");
+
+                        if (arrayCamposParte2.length >= 6) {
+
+                            dataVectra = Universal.getInstance().getDataHoraAtual("MM/dd/yyyy HH:mm:ss");
+
+                            Evento evento = new Evento();
+                            evento.setEve_data_hora(Universal.getInstance().dateTimeToCalendar(dataVectra));
+
+                            evento.setEve_conta_grupo_receptor(arrayCamposParte2[0]);
+                            evento.setEve_codigo_cliente(Long.parseLong(arrayCamposParte2[1]));
+
+                            evento.setEve_codigo_evento(arrayCamposParte2[2]);
+
+                            if (arrayCamposParte2.length == 6) {
+                                evento.setEve_Protocolo(arrayCamposParte2[2]);
+                                evento.setEve_codigo_evento(arrayCamposParte2[3]);
+                                evento.setEve_particao(arrayCamposParte2[4]);
+                                evento.setEve_usuario_zona(arrayCamposParte2[5]);
+                            }
+
+                            tabelaEventos.addRow(new Object[]{Universal.getInstance().calendarToString(evento.getEve_data_hora()), evento.getEve_hora(), evento.getEve_conta_grupo_receptor(), evento.getEve_codigo_cliente(), evento.getEve_protocolo(), evento.getEve_codigo_evento(),
+                                evento.getEve_particao(), evento.getEve_usuario_zona()});
+
+                            leitorDao.persist(evento);
+                            try {
+
                                 Cliente cliente = clienteDao.getById(evento.getEve_codigo_cliente());
                                 cliente.setCli_ultima_comunicacao(evento.getEve_data_hora());
+                                cliente.setCli_obs(null);
                                 cliente.setCli_codigo(evento.getEve_codigo_cliente());
-                                                                                                
                                 clienteDao.merge(cliente);
 
-                            } catch (NumberFormatException ex) {
-                                System.err.println(ex);
+                            } catch (NullPointerException nulo) {
+                                
+                                Cliente cli = new Cliente();
+                                cli.setCli_codigo(evento.getEve_codigo_cliente());
+                                cli.setCli_nome("Cadastrar");
+                                cli.setCli_monitorado(true);
+                                cli.setCli_ultima_comunicacao(Universal.getInstance().dateTimeToCalendar(Universal.getInstance().getDataHoraAtual("dd/MM/yyyy HH:mm:ss")));
+                                clienteDao.persist(cli);
+                                
+                                logger.error(nulo.toString() + "Cadastrar Cliente: " + evento.getEve_codigo_cliente());
                             }
                         }
                     }
                 }
-                FileWriter limpaEventGravaNoBD = new FileWriter(caminho + "eventGravarNoBD.txt", false);
-                limpaEventGravaNoBD.close();
+                System.out.println("Saiu");
+                limpaArquivoTXT("eventGravarNoBD");
                 arquivo.close();
                 entrada.close();
-            }//10:08  20/2/  61 0045 18 E250 00 000
-        } catch (IOException e) {
-            File file = new File(caminho + "log.txt");
-
-            try {
-                BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-                writer.write("Arquivo gravado em : " + new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date()));
-                writer.newLine();
-                writer.write(LeitorSamm.class.getName() + "\n " + e.toString() + "\n " + e.getLocalizedMessage().toString());
-                writer.flush();
-                writer.close();
-
-                Thread.sleep(10000);
-                Universal.reiniciaAplicativo();
-
-            } catch (IOException ex) {
-                System.out.println(ex);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(LeitorSamm.class.getName()).log(Level.SEVERE, null, ex);
             }
+            //MCDI -> 08:48  11/09  22 0003 18 E401 01 001
+            //Adenco -> 62 0097 18 E256 00 C000  
+        } catch (IOException e) {
+            String erro = e.toString() + "\n " + e.getLocalizedMessage().toString();
+            logger.error(erro);
+
+        } catch (ArrayIndexOutOfBoundsException ex) {
+            String erro = ex.toString() + "\n " + ex.getLocalizedMessage().toString();
+            limpaArquivoTXT("eventGravarNoBD");
+            logger.error(erro);
         }
+    }
+
+    public void limpaArquivoTXT(String arquivo) throws IOException {
+        FileWriter limpaEventTxt;
+        try {
+            limpaEventTxt = new FileWriter(caminho + arquivo + ".txt", false);
+            limpaEventTxt.close();
+        } catch (IOException e) {
+            String erro = e.toString() + "\n " + e.getLocalizedMessage().toString();
+            logger.error(erro);
+
+        }
+
     }
 }

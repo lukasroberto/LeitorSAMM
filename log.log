@@ -1,0 +1,41 @@
+2015-11-26 17:45:24,738 [main]  INFO Testes.java:27  iniciando aplicação
+2015-11-26 17:45:24,754 [main]  INFO Testes.java:30  usuario salvo no banco com sucesso
+2015-11-26 17:46:14,323 [Timer-0]  WARN EntityManagerFactoryRegistry.java:80  HHH000436: Entity manager factory name (WeHaveSciencePU) is already registered.  If entity manager will be clustered or passivated, specify a unique value for property 'hibernate.ejb.entitymanager_factory_name'
+2015-11-26 17:55:05,734 [Timer-0]  WARN EntityManagerFactoryRegistry.java:80  HHH000436: Entity manager factory name (WeHaveSciencePU) is already registered.  If entity manager will be clustered or passivated, specify a unique value for property 'hibernate.ejb.entitymanager_factory_name'
+2015-11-26 17:55:06,062 [Timer-0] ERROR Log4j.java:33  java.lang.NumberFormatException: For input string: ""
+2015-11-26 17:58:46,147 [main] ERROR Testes.java:31  Oops, deu erro: Loga esse no arquivo, Log4J!
+2015-11-26 18:02:54,004 [Timer-0]  WARN EntityManagerFactoryRegistry.java:80  HHH000436: Entity manager factory name (WeHaveSciencePU) is already registered.  If entity manager will be clustered or passivated, specify a unique value for property 'hibernate.ejb.entitymanager_factory_name'
+2015-11-26 18:02:54,114 [Timer-0] ERROR LeitorSamm.java:277  java.lang.NumberFormatException: For input string: ""
+2015-11-26 18:07:55,155 [Timer-0]  WARN EntityManagerFactoryRegistry.java:80  HHH000436: Entity manager factory name (WeHaveSciencePU) is already registered.  If entity manager will be clustered or passivated, specify a unique value for property 'hibernate.ejb.entitymanager_factory_name'
+2015-11-26 18:07:55,264 [Timer-0] ERROR LeitorSamm.java:277  errojava.lang.NumberFormatException: For input string: ""
+2015-11-26 18:08:55,702 [main] ERROR Testes.java:31  Oops, deu erro: Loga esse no arquivo, Log4J!
+2015-11-26 18:14:29,545 [Timer-0]  WARN EntityManagerFactoryRegistry.java:80  HHH000436: Entity manager factory name (WeHaveSciencePU) is already registered.  If entity manager will be clustered or passivated, specify a unique value for property 'hibernate.ejb.entitymanager_factory_name'
+2015-11-26 18:14:29,652 [Timer-0] ERROR LeitorSamm.java:222  java.lang.NullPointerExceptionCadastrar Cliente: 9999
+2015-11-26 18:15:36,245 [Timer-0]  WARN EntityManagerFactoryRegistry.java:80  HHH000436: Entity manager factory name (WeHaveSciencePU) is already registered.  If entity manager will be clustered or passivated, specify a unique value for property 'hibernate.ejb.entitymanager_factory_name'
+2015-11-26 18:15:36,352 [Timer-0] ERROR LeitorSamm.java:222  java.lang.NullPointerExceptionCadastrar Cliente: 9999
+2015-11-26 18:17:32,139 [Timer-0]  WARN EntityManagerFactoryRegistry.java:80  HHH000436: Entity manager factory name (WeHaveSciencePU) is already registered.  If entity manager will be clustered or passivated, specify a unique value for property 'hibernate.ejb.entitymanager_factory_name'
+2015-11-26 18:17:32,254 [Timer-0] ERROR LeitorSamm.java:222  java.lang.NullPointerExceptionCadastrar Cliente: 9999
+2015-11-26 18:21:26,241 [Timer-0]  WARN EntityManagerFactoryRegistry.java:80  HHH000436: Entity manager factory name (WeHaveSciencePU) is already registered.  If entity manager will be clustered or passivated, specify a unique value for property 'hibernate.ejb.entitymanager_factory_name'
+2015-11-26 18:21:26,358 [Timer-0] ERROR LeitorSamm.java:223  java.lang.NullPointerExceptionCadastrar Cliente: 9999
+2015-11-26 18:23:33,221 [Timer-0]  WARN EntityManagerFactoryRegistry.java:80  HHH000436: Entity manager factory name (WeHaveSciencePU) is already registered.  If entity manager will be clustered or passivated, specify a unique value for property 'hibernate.ejb.entitymanager_factory_name'
+2015-11-26 18:23:33,335 [Timer-0] ERROR LeitorSamm.java:222  java.lang.NullPointerExceptionCadastrar Cliente: 9999
+2015-11-26 18:29:52,472 [Timer-0]  WARN EntityManagerFactoryRegistry.java:80  HHH000436: Entity manager factory name (WeHaveSciencePU) is already registered.  If entity manager will be clustered or passivated, specify a unique value for property 'hibernate.ejb.entitymanager_factory_name'
+2015-11-26 18:29:52,590 [Timer-0] ERROR LeitorSamm.java:223  java.lang.NullPointerExceptionCadastrar Cliente: 9999
+2015-11-26 18:36:11,118 [Timer-0]  WARN EntityManagerFactoryRegistry.java:80  HHH000436: Entity manager factory name (WeHaveSciencePU) is already registered.  If entity manager will be clustered or passivated, specify a unique value for property 'hibernate.ejb.entitymanager_factory_name'
+2015-11-26 18:36:11,225 [Timer-0] ERROR LeitorSamm.java:223  java.lang.NullPointerExceptionCadastrar Cliente: 9999
+2015-11-26 18:36:11,228 [Timer-0] ERROR LeitorSamm.java:269  
+2015-11-26 18:36:11,237 [Timer-0] ERROR LeitorSamm.java:223  java.lang.NullPointerExceptionCadastrar Cliente: 9999
+2015-11-26 18:36:11,237 [Timer-0] ERROR LeitorSamm.java:269  
+2015-11-26 18:36:11,247 [Timer-0] ERROR LeitorSamm.java:223  java.lang.NullPointerExceptionCadastrar Cliente: 9999
+2015-11-26 18:36:11,247 [Timer-0] ERROR LeitorSamm.java:269  
+2015-11-26 18:36:11,257 [Timer-0] ERROR LeitorSamm.java:223  java.lang.NullPointerExceptionCadastrar Cliente: 9999
+2015-11-26 18:36:11,258 [Timer-0] ERROR LeitorSamm.java:269  
+2015-11-26 18:36:11,269 [Timer-0] ERROR LeitorSamm.java:223  java.lang.NullPointerExceptionCadastrar Cliente: 9999
+2015-11-26 18:36:11,269 [Timer-0] ERROR LeitorSamm.java:269  
+2015-11-26 18:36:11,280 [Timer-0] ERROR LeitorSamm.java:223  java.lang.NullPointerExceptionCadastrar Cliente: 9999
+2015-11-26 18:38:13,003 [Timer-0]  WARN EntityManagerFactoryRegistry.java:80  HHH000436: Entity manager factory name (WeHaveSciencePU) is already registered.  If entity manager will be clustered or passivated, specify a unique value for property 'hibernate.ejb.entitymanager_factory_name'
+2015-11-26 18:38:13,116 [Timer-0] ERROR LeitorSamm.java:223  java.lang.NullPointerExceptionCadastrar Cliente: 9999
+2015-11-26 18:39:58,442 [Timer-0]  WARN EntityManagerFactoryRegistry.java:80  HHH000436: Entity manager factory name (WeHaveSciencePU) is already registered.  If entity manager will be clustered or passivated, specify a unique value for property 'hibernate.ejb.entitymanager_factory_name'
+2015-11-26 18:39:58,550 [Timer-0] ERROR LeitorSamm.java:223  java.lang.NullPointerExceptionCadastrar Cliente: 9999
+2015-11-26 18:40:36,842 [Timer-0]  WARN EntityManagerFactoryRegistry.java:80  HHH000436: Entity manager factory name (WeHaveSciencePU) is already registered.  If entity manager will be clustered or passivated, specify a unique value for property 'hibernate.ejb.entitymanager_factory_name'
+2015-11-26 18:40:36,924 [Timer-0] ERROR LeitorSamm.java:265  java.lang.NullPointerExceptionCadastrar Cliente: 9999

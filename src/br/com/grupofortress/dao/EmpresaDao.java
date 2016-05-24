@@ -1,20 +1,18 @@
 package br.com.grupofortress.dao;
 
-import br.com.grupofortress.controller.Universal;
-import br.com.grupofortress.model.Cliente;
+import br.com.grupofortress.model.Empresa;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import javax.persistence.Query;
-import propriedades.Propriedades;
 
-public class ClientesDao {
+public class EmpresaDao {
 
     protected EntityManager entityManager;
 
-    public ClientesDao() {
+    public EmpresaDao() {
         entityManager = getEntityManager();
     }
 
@@ -28,20 +26,21 @@ public class ClientesDao {
         return entityManager;
     }
 
-    public Cliente getById(final Long id) {
-        return entityManager.find(Cliente.class, id);
+    public Empresa getById(final Long id) {
+        return entityManager.find(Empresa.class, id);
     }
 
     @SuppressWarnings("unchecked")
-    public List<Cliente> findAll() {
-        return entityManager.createQuery("FROM " + Cliente.class.getName())
+    public List<Empresa> findAll() {
+        return entityManager.createQuery("FROM " + Empresa.class.getName())
                 .getResultList();
+        
     }
 
-    public void persist(Cliente cliente) {
+    public void persist(Empresa empresa) {
         try {
             entityManager.getTransaction().begin();
-            entityManager.persist(cliente);
+            entityManager.persist(empresa);
             entityManager.getTransaction().commit();
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -49,10 +48,10 @@ public class ClientesDao {
         }
     }
 
-    public void merge(Cliente cliente) {
+    public void merge(Empresa empresa) {
         try {
             entityManager.getTransaction().begin();
-            entityManager.merge(cliente);
+            entityManager.merge(empresa);
             entityManager.getTransaction().commit();
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -60,11 +59,11 @@ public class ClientesDao {
         }
     }
 
-    public void remove(Cliente cliente) {
+    public void remove(Empresa empresa) {
         try {
             entityManager.getTransaction().begin();
-            cliente = entityManager.find(Cliente.class, cliente.getCli_codigo());
-            entityManager.remove(cliente);
+            empresa = entityManager.find(Empresa.class, empresa.getEmp_id());
+            entityManager.remove(empresa);
             entityManager.getTransaction().commit();
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -74,11 +73,20 @@ public class ClientesDao {
 
     public void removeById(final Long id) {
         try {
-            Cliente cliente = getById(id);
-            remove(cliente);
+            Empresa empresa = getById(id);
+            remove(empresa);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+    }
+
+    ArrayList<Empresa> arrayEmpresa = new ArrayList<>();
+
+    public void listaDeEmpresas() {
+        for (Empresa empresa : this.findAll()) {
+            arrayEmpresa.add(empresa);
+        }
+
     }
 
 //    public void atualizaUltimaComunicacaoCLiente(String data, int cli_codigo) {
@@ -87,17 +95,13 @@ public class ClientesDao {
 //        createQuery.executeUpdate();
 //        entityManager.getTransaction().commit();
 //    }
-    public List<Cliente> getClientesSemComunicacao(int empresa) {
-        int dias = Integer.parseInt(Propriedades.getProp().getProperty("dias"));
-        int horas = Integer.parseInt(Propriedades.getProp().getProperty("horas"));
-            if (!entityManager.getTransaction().isActive()) {
-                entityManager.getTransaction().begin();
-            }
-            Query createQuery = entityManager.createQuery("FROM " + Cliente.class.getName() + " WHERE (cli_empresa = '" + empresa + "') AND (cli_monitorado = 'true')\n"
-                    + "AND (cli_ultima_comunicacao < '" + Universal.getInstance().getDataAtualMenosDiaMenosHora(dias, horas) + "') ORDER BY cli_ultima_comunicacao DESC");
-            return createQuery.getResultList();
-
-
-    }
-
+//    public List<Cliente> getClientesSemComunicacao(int empresa) {
+//        int dias = Integer.parseInt(Propriedades.getProp().getProperty("dias"));
+//        int horas = Integer.parseInt(Propriedades.getProp().getProperty("horas"));
+//
+//        entityManager.getTransaction().begin();
+//        Query createQuery = entityManager.createQuery("FROM " + Cliente.class.getName() + " WHERE (cli_empresa = '" + empresa + "') AND (cli_monitorado = 'true')\n"
+//                + "AND (cli_ultima_comunicacao < '" + Universal.getInstance().getDataAtualMenosDiaMenosHora(dias, horas) + "') ORDER BY cli_ultima_comunicacao DESC");
+//        return createQuery.getResultList();
+//    }
 }

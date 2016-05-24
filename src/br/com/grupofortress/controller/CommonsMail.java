@@ -83,7 +83,7 @@ public final class CommonsMail {
      * @throws EmailException
      * @throws MalformedURLException
      */
-    public void enviaEmailFormatoHtml(String msg) throws EmailException, MalformedURLException {
+    public void enviaEmailFormatoHtml(String msg, String assunto, String emails) throws EmailException, MalformedURLException {
 
         try {
 
@@ -92,7 +92,7 @@ public final class CommonsMail {
             String user = Propriedades.getProp().getProperty("user").trim();
             String serverMail = Propriedades.getProp().getProperty("servidorEmail").trim();
 
-            String para[] = Propriedades.getProp().getProperty("para").trim().split(Pattern.quote(";"));
+            String para[] = emails.trim().split(Pattern.quote(";"));
             for (String enviaPara : para) {
 
                 HtmlEmail email = new HtmlEmail();
@@ -101,7 +101,7 @@ public final class CommonsMail {
                 //URL url = new URL("http://www.apache.org/images/asf_logo_wide.gif");
                 //String cid = email.embed(url, "Apache logo");	
                 // configura a mensagem para o formato HTML
-                email.setHtmlMsg("<html>Logo do Apache - <img ></html>");
+                //email.setHtmlMsg("<html>Logo do Apache - <img ></html>");
 
                 // configure uma mensagem alternativa caso o servidor não suporte HTML
                 email.setTextMsg("Seu servidor de e-mail não suporta mensagem HTML");
@@ -109,7 +109,7 @@ public final class CommonsMail {
                 email.setHostName(serverMail); // o servidor SMTP para envio do e-mail
                 email.addTo(enviaPara); //destinatário
                 email.setFrom(de); // remetente
-                email.setSubject("Relatorio de Comunicacao"); // assunto do e-mail
+                email.setSubject(assunto); // assunto do e-mail
                 email.setMsg(msg); //conteudo do e-mail
                 email.setAuthentication(user, senha);
                 email.setSmtpPort(587);

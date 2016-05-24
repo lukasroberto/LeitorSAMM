@@ -81,7 +81,7 @@ public class RelatComunicacaoDao {
 
     public void atualizaLogRelatComunicacao(String data, Long cli_codigo) {
         entityManager.getTransaction().begin();
-        String dataAtual = Universal.getInstance().getDataHoraAtual();
+        String dataAtual = Universal.getInstance().getDataHoraAtual("dd/MM/yyyy HH:mm:ss");
         Query createQuery = entityManager.createQuery("UPDATE " + RelatComunicacao.class.getName() + " SET com_data_atual = '" + dataAtual + "'WHERE COM_CLI_CODIGO = '" + cli_codigo + "' AND com_data_ultima_comunicacao = '" + data + "'");
         createQuery.executeUpdate();
         entityManager.getTransaction().commit();

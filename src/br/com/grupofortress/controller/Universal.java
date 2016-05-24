@@ -26,7 +26,8 @@ public class Universal {
 
     //retorna dada, mes, dia, ano, Hora atual
     private Calendar cal = Calendar.getInstance();
-    private String mes = "0" + (cal.get(Calendar.MONTH) + 1);
+    private int mes = cal.get(Calendar.MONTH) + 1;
+
     private int dia = cal.get(Calendar.DAY_OF_MONTH);
     private int ano = cal.get(Calendar.YEAR);
     private String data = dia + "/" + mes + "/" + ano;
@@ -37,15 +38,18 @@ public class Universal {
     private int segundo = cal.get(Calendar.SECOND);
     private String horaMinSegAtual = hora + ":" + minuto + ":" + segundo;
 
-    public String getDataHoraAtual() { 
-        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss"); 
-        Date date = new Date(); 
-        return dateFormat.format(date); 
+    public String getDataHoraAtual(String formato) {//ex: "dd/MM/yyyy HH:mm:ss"
+        DateFormat dateFormat = new SimpleDateFormat(formato);
+        Date date = new Date();
+        return dateFormat.format(date);
     }
 
-
     public String getMes() {
-        return mes;
+        if (mes < 10) {
+            return "0" + mes;
+        } else {
+            return mes+"";
+        }
     }
 
     public int getDia() {
